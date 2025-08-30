@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Informe técnico — Márgenes “normales” de ajuste en inventario de rollos de tela</title>
+<style>
+  :root{
+    --ink:#1c2733; --muted:#5b6b80; --accent:#0e7dd8; --soft:#eef5ff; --ok:#0a8f5b; --warn:#d17b0f; --bad:#c03426;
+    --bg:#ffffff; --line:#e5e9ef;
+  }
+  html,body{background:var(--bg); color:var(--ink); font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Inter,Arial,sans-serif; line-height:1.55;}
+  header{border-bottom:2px solid var(--line); padding:12px 0 16px; margin-bottom:20px;}
+  h1{margin:.2rem 0 .4rem; font-size:1.6rem;}
+  h2{margin:1.6rem 0 .6rem; font-size:1.25rem;}
+  h3{margin:1.2rem 0 .4rem; font-size:1.05rem; color:var(--muted);}
+  p{margin:.5rem 0;}
+  .tag{display:inline-block; padding:.15rem .5rem; border-radius:999px; font-size:.8rem; background:var(--soft); color:var(--accent); border:1px solid #d6e7ff; margin-right:.5rem}
+  .grid{display:grid; gap:14px;}
+  .grid.cols-2{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .grid.cols-3{grid-template-columns:repeat(3,minmax(0,1fr));}
+  @media (max-width:900px){.grid.cols-3{grid-template-columns:1fr}.grid.cols-2{grid-template-columns:1fr}}
+  .card{border:1px solid var(--line); border-radius:12px; padding:14px;}
+  table{width:100%; border-collapse:collapse; margin:8px 0 16px;}
+  th,td{border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top; font-size:.95rem}
+  th{background:#f7f9fc; font-weight:600;}
+  small, .note{color:var(--muted); font-size:.9rem}
+  .ok{color:var(--ok); font-weight:600}
+  .warn{color:var(--warn); font-weight:600}
+  .bad{color:var(--bad); font-weight:600}
+  .kbd{background:#f3f5f8; border:1px solid var(--line); border-bottom-color:#cbd5e1; padding:.1rem .35rem; border-radius:6px; font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
+  .hr{height:1px; background:var(--line); margin:18px 0;}
+  .ref a{color:var(--accent); text-decoration:none; border-bottom:1px dotted #8ec4ff}
+  .ref a:hover{color:#075a99; border-bottom-style:solid}
+  .callout{border-left:4px solid var(--accent); background:#f8fbff; padding:10px 12px; border-radius:10px; margin:.6rem 0}
+  ul{margin:.3rem 0 .8rem 1.1rem}
+  li{margin:.25rem 0}
+  code{background:#f3f5f8; border:1px solid var(--line); padding:.1rem .35rem; border-radius:6px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="tag">Rol: Analista de inventarios textiles</div>
+  <div class="tag">Fecha: 28/08/2025</div>
+  <h1>Márgenes “normales” o aceptables de ajuste / pérdida en inventarios de rollos de tela</h1>
+  <p class="note">Ámbito: inventario de telas importadas (China → Argentina). Rollos de 25–50 m. Stock ≈ 1.000.000 m. Ventas mensuales ≈ 120.000 m. Ajustes observados: 100–2.000 m por color/artículo.</p>
+</header>
+
+<section>
+  <h2>1) Hallazgos clave (benchmark y normas)</h2>
+  <div class="grid cols-3">
+    <div class="card">
+      <h3>Benchmark de “shrink” (industria en general)</h3>
+      <ul>
+        <li><span class="ok">Objetivo recomendado:</span> <strong>1–2%</strong> de shrink total como “ideal” (criterio experto generalista). <span class="ref"><a href="https://www.deskera.com/blog/inventory-shrinkage/" target="_blank" rel="noopener">Deskera</a></span></li>
+        <li><span class="warn">Retail USA (dato empírico):</span> <strong>1,6% promedio</strong> FY2022 (NRF, encuesta anual). <span class="ref"><a href="https://nrf.com/research/national-retail-security-survey-2023" target="_blank" rel="noopener">NRF 2023</a></span></li>
+      </ul>
+      <p class="note">Aunque retail ≠ textil B2B, sirven como cota superior razonable para “pérdida total” si no hay métricas propias sectoriales.</p>
+    </div>
+
+    <div class="card">
+      <h3>Tolerancias de <em>medición de largo</em> (dispositivo)</h3>
+      <p>NIST HB 44 §5.50 “Fabric-Measuring Devices” define tolerancias de aceptación/mantenimiento para metros/yardas indicadas.</p>
+      <table>
+        <thead>
+          <tr><th>Indicación</th><th>Aceptación (sub-reg.)</th><th>Aceptación (sobre-reg.)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>10–11 yd</td><td>¾″ (≈19,1 mm)</td><td>⅜″ (≈9,5 mm)</td></tr>
+          <tr><td>≥15 yd</td><td>+1/16″ por yd</td><td>+1/32″ por yd</td></tr>
+        </tbody>
+      </table>
+      <p class="ref"><a href="https://www.nist.gov/pml/owm/nist-handbook-44-2024" target="_blank" rel="noopener">NIST HB 44 (2024) – Sección 5.50 (PDF)</a></p>
+    </div>
+
+    <div class="card">
+      <h3>Tolerancias de <em>tejidos de punto</em> (rollos)</h3>
+      <table>
+        <thead>
+          <tr><th>Propiedad</th><th>Tolerancia</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Longitud</td><td>±2,0%</td></tr>
+          <tr><td>Ancho</td><td>0 a +25 mm</td></tr>
+          <tr><td>Peso (GSM)</td><td>±5,0%</td></tr>
+        </tbody>
+      </table>
+      <p class="ref"><a href="https://www.ethiostandards.org/sites/default/files/2021-01/13%20Specification%20for%20tolerances%20of%20Knitted%20Fabrics.pdf" target="_blank" rel="noopener">ES 6731:2021 (Ethiopian Standard, PDF)</a> &nbsp;|&nbsp; <a href="https://www.astm.org/d3887-96.html" target="_blank" rel="noopener">ASTM D3887 (referencia)</a></p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>Sobre encogimiento (post-lavado / acondicionamiento):</strong>
+    <ul>
+      <li>“Estándar no oficial”: >5% se considera inaceptable; <3–5% tolerable según producto. <span class="ref"><a href="https://alisonhoenes.com/email/acceptable-fabric-shrinkage-percentages/" target="_blank" rel="noopener">Alison Hoenes</a></span></li>
+      <li>Rangos típicos: tejidos planos 2–4%, punto 3–8%, elásticos 10–18%. <span class="ref"><a href="https://www.onlineclothingstudy.com/2015/04/control-fabric-shrinkage-in-garment.html" target="_blank" rel="noopener">Online Clothing Study</a></span></li>
+      <li>Métodos de ensayo normalizados: <span class="ref"><a href="https://cdn.standards.iteh.ai/samples/41877/ffcaa2fb92e54cdc88dd679a4f68f732/ISO-5077-2007.pdf" target="_blank" rel="noopener">ISO 5077</a></span>, <span class="ref"><a href="https://members.aatcc.org/store/tm135/543/" target="_blank" rel="noopener">AATCC TM135</a></span>.</li>
+    </ul>
+    <p class="note">Estos valores explican diferencias “físicas” entre metraje nominal y utilizable, pero no deben mezclarse con shrink de inventario (pérdidas contables).</p>
+  </div>
+</section>
+
+<section>
+  <h2>2) ¿Qué es “normal” para un encargado de inventario de telas?</h2>
+
+  <div class="grid cols-2">
+    <div class="card">
+      <h3>KPIs de exactitud de inventario (almacén)</h3>
+      <ul>
+        <li><strong>Exactitud global (cantidad & ubicación): ≥97–98%</strong> como buena práctica. <span class="ref"><a href="https://www.unleashedsoftware.com/blog/inventory-cycle-count/" target="_blank" rel="noopener">Unleashed</a></span> · <span class="ref"><a href="https://www.cadretech.com/blog/warehouse-kpis/" target="_blank" rel="noopener">CadreTech</a></span></li>
+        <li>“Clase mundial”: metas puntuales de 99%+ con automatización (RF/barcode/WMS). <span class="ref"><a href="https://www.netsuite.com/portal/resource/articles/inventory-management/using-inventory-control-software-for-cycle-counting.shtml" target="_blank" rel="noopener">NetSuite</a></span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Margen de ajuste contable “aceptable”</h3>
+      <ul>
+        <li><strong>Meta conservadora para textil B2B:</strong> mantener <span class="ok">≤1,0%</span> de shrink total.</li>
+        <li><strong>Cota superior “aceptable”:</strong> <span class="warn">1–2%</span> (alineado a benchmark generalista y por debajo de retail 1,6%). <span class="ref"><a href="https://www.deskera.com/blog/inventory-shrinkage/" target="_blank" rel="noopener">Deskera</a></span> · <span class="ref"><a href="https://nrf.com/research/national-retail-security-survey-2023" target="_blank" rel="noopener">NRF</a></span></li>
+        <li><strong>Rojo:</strong> >2% sostenido o picos >3% → investigar proceso (recepción, medición, surtido, mermas físicas).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Traducción a tu operación (ventas 120.000 m/mes; stock 1.000.000 m)</h3>
+    <table>
+      <thead>
+        <tr><th>Escenario</th><th>Cálculo</th><th>Indicador</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Ajuste de 100 m en el mes</td>
+          <td>100 ÷ 120.000 = <strong>0,083%</strong> de las ventas</td>
+          <td class="ok">Dentro de “normal” si el total mensual se mantiene ≲1%</td>
+        </tr>
+        <tr>
+          <td>Ajuste de 2.000 m en el mes</td>
+          <td>2.000 ÷ 120.000 = <strong>1,667%</strong> de las ventas</td>
+          <td class="warn">En el límite alto “aceptable” (revisar causa y recurrencia)</td>
+        </tr>
+        <tr>
+          <td>Impacto sobre stock</td>
+          <td>100 ÷ 1.000.000 = <strong>0,01%</strong> &nbsp;|&nbsp; 2.000 ÷ 1.000.000 = <strong>0,20%</strong></td>
+          <td class="ok">Bajo en relación al stock; igual conviene monitorear tendencia</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="note">Si los <em>ajustes por color</em> se suman en varios artículos, evaluá el <strong>shrink mensual agregado</strong> como % de ventas para compararlo contra 1–2%.</p>
+  </div>
+
+  <div class="card">
+    <h3>Diferencias “físicas” esperables por rollo (para interpretar ajustes)</h3>
+    <ul>
+      <li><strong>Medición del largo (equipo):</strong> tolerancias NIST HB 44 (p.ej., ±9,5 a ±19 mm a 10–11 yd). <span class="ref"><a href="https://www.nist.gov/pml/owm/nist-handbook-44-2024" target="_blank" rel="noopener">NIST §5.50</a></span></li>
+      <li><strong>Tela de punto:</strong> ±2% en longitud por rollo (reglamentario ES 6731). <span class="ref"><a href="https://www.ethiostandards.org/sites/default/files/2021-01/13%20Specification%20for%20tolerances%20of%20Knitted%20Fabrics.pdf" target="_blank" rel="noopener">ES 6731:2021</a></span></li>
+      <li><strong>Control de contracción:</strong> ensayar/estandarizar según <span class="ref"><a href="https://cdn.standards.iteh.ai/samples/41877/ffcaa2fb92e54cdc88dd679a4f68f732/ISO-5077-2007.pdf" target="_blank" rel="noopener">ISO 5077</a></span> y <span class="ref"><a href="https://members.aatcc.org/store/tm135/543/" target="_blank" rel="noopener">AATCC 135</a></span>.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>3) Causas típicas de ajustes en rollos de tela</h2>
+  <div class="grid cols-3">
+    <div class="card">
+      <h3>Recepción / medición</h3>
+      <ul>
+        <li>Contador mecánico descalibrado (sesgo sistemático).</li>
+        <li>Medición con tensión/arrugas (violación de método ISO 22198: “estado relajado”). <span class="ref"><a href="https://www.iso.org/standard/40768.html" target="_blank" rel="noopener">ISO 22198</a></span></li>
+        <li>Redondeos y tolerancias de fabricante por lote.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Almacenaje / manipuleo</h3>
+      <ul>
+        <li>Merma por daños (orillos, humedad, suciedad, cortes).</li>
+        <li>Confusión de SKU/colores en surtido (errores de ubicación).</li>
+        <li>Uniones/“splices” ocultos → metraje no utilizable.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Calidad del tejido</h3>
+      <ul>
+        <li>Encogimiento post-proceso (pre-lavado/estabilizado insuficiente). <span class="ref"><a href="https://alisonhoenes.com/email/acceptable-fabric-shrinkage-percentages/" target="_blank" rel="noopener">Alison Hoenes</a></span></li>
+        <li>Variación rollo-a-rollo (punto > plano; stretch elástico >10%). <span class="ref"><a href="https://www.onlineclothingstudy.com/2015/04/control-fabric-shrinkage-in-garment.html" target="_blank" rel="noopener">Online Clothing Study</a></span></li>
+        <li>Defectos (clasificables por “Four-Point System”). <span class="ref"><a href="https://www.cottoninc.com/quality-products/textile-resources/fabric-defects-classification/" target="_blank" rel="noopener">Cotton Inc.</a></span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>4) Recomendaciones prácticas (control y ajuste)</h2>
+
+  <div class="grid cols-2">
+    <div class="card">
+      <h3>Política de tolerancias y recepción</h3>
+      <ul>
+        <li><strong>Definir por contrato</strong> tolerancias de rollo: para punto usar <code>±2% largo</code>, <code>0 a +25 mm ancho</code> (ES 6731). Para plano, acordar un <code>±1–2%</code> si proveedor no declara (amparado en ISO 22198 como método de medición).</li>
+        <li><strong>Equipos</strong>: verificar contadores vs. cinta patrón conforme NIST HB 44; registrar desvío y ajustar. <span class="ref"><a href="https://www.nist.gov/pml/owm/nist-handbook-44-2024" target="_blank" rel="noopener">NIST §5.50</a></span></li>
+        <li><strong>Estado relajado</strong> al medir (ISO 22198): sin tensión, sin arrugas; documentar procedimiento interno con fotos.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Inventario & KPI</h3>
+      <ul>
+        <li><strong>Meta mensual</strong> de shrink total: <span class="ok">≤1,0%</span> de ventas; <span class="warn">1–2%</span> requiere análisis; <span class="bad">&gt;2%</span> accionar correctivo.</li>
+        <li><strong>Exactitud</strong>: objetivo ≥<code>97–98%</code>; seguimiento con <em>cycle counting</em> ABC (A semanal, B mensual, C trimestral). <span class="ref"><a href="https://www.unleashedsoftware.com/blog/inventory-cycle-count/" target="_blank" rel="noopener">Unleashed</a></span></li>
+        <li><strong>Clasificar ajustes</strong>: Medición (M), Daño (D), Ubicación (U), Proceso (P). Reporte por causa y proveedor.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Fórmulas operativas</h3>
+    <ul>
+      <li><strong>Shrink rate</strong>: <code>(Stock teórico − Stock físico) ÷ Ventas del período</code></li>
+      <li><strong>Exactitud inventario</strong>: <code>Ítems correctos ÷ Ítems contados</code></li>
+      <li><strong>Merma utilizable por encogimiento</strong> (ensayo): <code>(Medida post − pre) ÷ pre</code> según <span class="ref"><a href="https://cdn.standards.iteh.ai/samples/41877/ffcaa2fb92e54cdc88dd679a4f68f732/ISO-5077-2007.pdf" target="_blank" rel="noopener">ISO 5077</a></span> / <span class="ref"><a href="https://members.aatcc.org/store/tm135/543/" target="_blank" rel="noopener">AATCC 135</a></span>.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Inspección de calidad de tela (para evitar ajustes por defectos)</h3>
+    <ul>
+      <li>Aplicar <strong>Four-Point System</strong> para clasificación de defectos por rollo/lote y umbrales de aceptación. <span class="ref"><a href="https://www.cottoninc.com/quality-products/textile-resources/fabric-defects-classification/" target="_blank" rel="noopener">Cotton Inc.</a></span></li>
+      <li>Vincular resultado de inspección a decisiones de ajuste (descuento al proveedor / segregación / reproceso).</li>
+    </ul>
+  </div>
+</section>
+
+<div class="hr"></div>
+
+<section>
+  <h2>5) Tablas de referencia rápida</h2>
+
+  <h3>5.1 Benchmarks y tolerancias</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Concepto</th>
+        <th>Rango</th>
+        <th>Fuente</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Shrink “ideal” (genérico)</td>
+        <td>1–2%</td>
+        <td class="ref"><a href="https://www.deskera.com/blog/inventory-shrinkage/" target="_blank" rel="noopener">Deskera</a></td>
+      </tr>
+      <tr>
+        <td>Shrink retail (FY2022)</td>
+        <td>1,6% promedio</td>
+        <td class="ref"><a href="https://nrf.com/research/national-retail-security-survey-2023" target="_blank" rel="noopener">NRF 2023</a></td>
+      </tr>
+      <tr>
+        <td>Exactitud inventario (buena práctica)</td>
+        <td>≥97–98%</td>
+        <td class="ref"><a href="https://www.unleashedsoftware.com/blog/inventory-cycle-count/" target="_blank" rel="noopener">Unleashed</a> · <a href="https://www.cadretech.com/blog/warehouse-kpis/" target="_blank" rel="noopener">CadreTech</a></td>
+      </tr>
+      <tr>
+        <td>Encogimiento tolerable (no oficial)</td>
+        <td>&lt;5% (ideal &lt;3%)</td>
+        <td class="ref"><a href="https://alisonhoenes.com/email/acceptable-fabric-shrinkage-percentages/" target="_blank" rel="noopener">Alison Hoenes</a></td>
+      </tr>
+      <tr>
+        <td>Encogimiento típico (tejido plano)</td>
+        <td>2–4%</td>
+        <td class="ref"><a href="https://www.onlineclothingstudy.com/2015/04/control-fabric-shrinkage-in-garment.html" target="_blank" rel="noopener">Online Clothing Study</a></td>
+      </tr>
+      <tr>
+        <td>Encogimiento típico (punto)</td>
+        <td>3–8%</td>
+        <td class="ref"><a href="https://www.onlineclothingstudy.com/2015/04/control-fabric-shrinkage-in-garment.html" target="_blank" rel="noopener">Online Clothing Study</a></td>
+      </tr>
+      <tr>
+        <td>Encogimiento típico (stretch)</td>
+        <td>10–18%</td>
+        <td class="ref"><a href="https://www.onlineclothingstudy.com/2015/04/control-fabric-shrinkage-in-garment.html" target="_blank" rel="noopener">Online Clothing Study</a></td>
+      </tr>
+      <tr>
+        <td>Tolerancia largo rollos (punto)</td>
+        <td>±2,0%</td>
+        <td class="ref"><a href="https://www.ethiostandards.org/sites/default/files/2021-01/13%20Specification%20for%20tolerances%20of%20Knitted%20Fabrics.pdf" target="_blank" rel="noopener">ES 6731:2021</a></td>
+      </tr>
+      <tr>
+        <td>Tolerancias equipo de medición</td>
+        <td>p.ej. 10–11 yd: ¾″ sub / ⅜″ sobre</td>
+        <td class="ref"><a href="https://www.nist.gov/pml/owm/nist-handbook-44-2024" target="_blank" rel="noopener">NIST HB 44 §5.50</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>5.2 Reglas de decisión (rápidas)</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Métrica</th>
+        <th>Verde</th>
+        <th>Ámbar</th>
+        <th>Rojo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Shrink mensual (ventas)</td>
+        <td class="ok">≤1,0%</td>
+        <td class="warn">1–2%</td>
+        <td class="bad">&gt;2%</td>
+      </tr>
+      <tr>
+        <td>Exactitud inventario</td>
+        <td class="ok">≥98%</td>
+        <td class="warn">97–98%</td>
+        <td class="bad">&lt;97%</td>
+      </tr>
+      <tr>
+        <td>Rollos (punto) — largo</td>
+        <td class="ok">|Δ| ≤2,0%</td>
+        <td class="warn">2,0–3,0%</td>
+        <td class="bad">&gt;3,0%</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2>6) Fuentes y normas (con enlaces)</h2>
+  <ol>
+    <li>NRF — <em>National Retail Security Survey 2023</em> (promedio 1,6% FY2022). <span class="ref"><a href="https://nrf.com/research/national-retail-security-survey-2023" target="_blank" rel="noopener">Ficha</a></span> · <span class="ref"><a href="https://nrf.com/media-center/press-releases/shrink-accounted-over-112-billion-industry-losses-2022-according-nrf" target="_blank" rel="noopener">Comunicado de prensa</a></span></li>
+    <li>Deskera — <em>What is Inventory Shrinkage…</em> (ideal 1–2%). <span class="ref"><a href="https://www.deskera.com/blog/inventory-shrinkage/" target="_blank" rel="noopener">Artículo</a></span></li>
+    <li>NIST — <em>Handbook 44 (2024) §5.50 Fabric-Measuring Devices</em> (tolerancias de medición). <span class="ref"><a href="https://www.nist.gov/pml/owm/nist-handbook-44-2024" target="_blank" rel="noopener">Índice</a></span> · <span class="ref"><a href="https://www.nist.gov/document/nist-handbook-44-2024-section-550-fabric-measuring-devices-pdf" target="_blank" rel="noopener">PDF</a></span></li>
+    <li>ES 6731:2021 — <em>Specification for tolerances of Knitted Fabrics</em> (±2% largo; 0 a +25 mm ancho; ±5% GSM). <span class="ref"><a href="https://www.ethiostandards.org/sites/default/files/2021-01/13%20Specification%20for%20tolerances%20of%20Knitted%20Fabrics.pdf" target="_blank" rel="noopener">PDF</a></span> · Referencia a <span class="ref"><a href="https://www.astm.org/d3887-96.html" target="_blank" rel="noopener">ASTM D3887</a></span></li>
+    <li>ISO 22198:2006 — <em>Textiles — Fabrics — Determination of width and length</em> (método de medición en estado relajado). <span class="ref"><a href="https://www.iso.org/standard/40768.html" target="_blank" rel="noopener">Ficha ISO</a></span></li>
+    <li>ISO 5077:2007 — <em>Dimensional change in washing and drying</em> (ensayo de encogimiento). <span class="ref"><a href="https://cdn.standards.iteh.ai/samples/41877/ffcaa2fb92e54cdc88dd679a4f68f732/ISO-5077-2007.pdf" target="_blank" rel="noopener">PDF</a></span></li>
+    <li>AATCC TM135 — <em>Dimensional Changes of Fabrics after Home Laundering</em>. <span class="ref"><a href="https://members.aatcc.org/store/tm135/543/" target="_blank" rel="noopener">Ficha</a></span></li>
+    <li>Alison Hoenes — <em>Acceptable fabric shrinkage percentages</em> (≤5% tolerable; ideal &lt;3%). <span class="ref"><a href="https://alisonhoenes.com/email/acceptable-fabric-shrinkage-percentages/" target="_blank" rel="noopener">Artículo</a></span></li>
+    <li>Online Clothing Study — <em>Control of fabric shrinkage…</em> (planos 2–4%, punto 3–8%, stretch 10–18%). <span class="ref"><a href="https://www.onlineclothingstudy.com/2015/04/control-fabric-shrinkage-in-garment.html" target="_blank" rel="noopener">Artículo</a></span></li>
+    <li>Cotton Incorporated — <em>Fabric Defects Classification (Four-Point System)</em>. <span class="ref"><a href="https://www.cottoninc.com/quality-products/textile-resources/fabric-defects-classification/" target="_blank" rel="noopener">Recurso</a></span></li>
+    <li>Unleashed — <em>Cycle Counting &gt; 97% accuracy</em>. <span class="ref"><a href="https://www.unleashedsoftware.com/blog/inventory-cycle-count/" target="_blank" rel="noopener">Artículo</a></span></li>
+    <li>CadreTech — <em>Warehouse KPIs</em> (objetivo 97–98% exactitud). <span class="ref"><a href="https://www.cadretech.com/blog/warehouse-kpis/" target="_blank" rel="noopener">Artículo</a></span></li>
+  </ol>
+</section>
+
+<section>
+  <h2>7) Qué monitorear desde mañana</h2>
+  <div class="grid cols-3">
+    <div class="card">
+      <h3>Checklist — recepción</h3>
+      <ul>
+        <li>Medición en estado relajado (ISO 22198).</li>
+        <li>Verificación quincenal del contador (NIST HB 44) con cinta patrón.</li>
+        <li>Registrar “splices”, daños de orillo y mermas no utilizables.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Checklist — inventario</h3>
+      <ul>
+        <li>Cycle counting ABC (A semanal / B mensual / C trimestral).</li>
+        <li>Reporte de <span class="kbd">ajustes por causa</span> (M/D/U/P) y por proveedor.</li>
+        <li>Tablero: <strong>Shrink % mensual</strong>, <strong>Exactitud %</strong>, <strong>Top 10 desvíos</strong>.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Checklist — calidad</h3>
+      <ul>
+        <li>Ensayo de encogimiento por artículo/partida (ISO 5077 / AATCC 135).</li>
+        <li>Inspección Four-Point por rollo crítico (color oscuro, estampado, elastizado).</li>
+        <li>Política de aceptación y nota de débito al proveedor cuando aplique.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer class="note" style="margin-top:28px">
+  <div class="hr"></div>
+  <p><strong>Notas de lectura:</strong> (i) Las cifras de NRF son de retail EE. UU. y se usan como referencia externa de “cota” para shrink total. (ii) ES 6731 ofrece tolerancias explícitas para <em>tejidos de punto</em>; para tejidos planos, la práctica es fijarlas por contrato y medir según ISO 22198. (iii) Las tolerancias NIST aplican a dispositivos de medición comercial de rollos —son útiles para poner en contexto desvíos de metraje por equipo.</p>
+  <p>© 2025 • Preparado para uso interno y directivo. Este documento incluye hipervínculos a normas y artículos de referencia.</p>
+</footer>
+
+</body>
+</html>
